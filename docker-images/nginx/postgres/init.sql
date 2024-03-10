@@ -7,8 +7,10 @@ CREATE DATABASE whist_nginx;
 \connect whist_nginx;
 
 CREATE TABLE IF NOT EXISTS global_counter (
-    hit_counter INT
+    hit_counter INTEGER NOT NULL
 );
+
+INSERT INTO global_counter (hit_counter) VALUES (0);
 
 CREATE TABLE IF NOT EXISTS access_log (
     client_ip inet,
