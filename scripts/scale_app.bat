@@ -5,4 +5,4 @@ if "%~1"=="" (
     exit /b 1
 )
 
-docker-compose -f .\nginx.yaml up -d --scale app=%1
+docker-compose -f ..\docker-compose.yaml up -d --scale app=%1

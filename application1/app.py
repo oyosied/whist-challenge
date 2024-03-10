@@ -27,9 +27,12 @@ conn = psycopg2.connect(
 
 def increment_global():
     db_cursor = conn.cursor()
-    sql_query = "UPDATE global_counter SET hit_counter = hit_counter + 1"
-    db_cursor.execute(sql_query)
-    conn.commit()
+    try:
+        sql_query = "UPDATE global_counter SET hit_counter = hit_counter + 1"
+        db_cursor.execute(sql_query)
+        conn.commit()
+    except:
+        conn.rollback()
 
 @app.route('/')
 def index():
@@ -41,11 +44,14 @@ def index():
     now = datetime.now()
 
     db_cursor = conn.cursor()
-    db_cursor.execute(
-        "INSERT INTO access_log (client_ip, date_time, replica_ip) VALUES (%s, %s, %s)",
-        (client_ip, now, replica_ip)
-    )
-    conn.commit()
+    try:
+        db_cursor.execute(
+            "INSERT INTO access_log (client_ip, date_time, replica_ip) VALUES (%s, %s, %s)",
+            (client_ip, now, replica_ip)
+        )
+        conn.commit()
+    except:
+        conn.rollback()
 
     return jsonify(replica_ip=replica_ip)
 
