@@ -1,4 +1,5 @@
 import os
+import socket
 from datetime import datetime
 
 from flask import Flask, render_template, request, jsonify
@@ -23,7 +24,8 @@ conn = psycopg2.connect(
     password=db_password
 )
 
-
+hostname = socket.gethostname()
+IPAddr = socket.gethostbyname(hostname)
 
 def increment_global():
     db_cursor = conn.cursor()
@@ -36,6 +38,7 @@ def increment_global():
 
 @app.route('/')
 def index():
+    print(IPAddr)
     increment_global()
     client_ip = request.headers.getlist('X-Forwarded-For')[0]
     replica_ip = request.cookies.get('replica_ip', '')
