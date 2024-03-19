@@ -31,6 +31,6 @@ jobs:
           IMAGE_TAG: ${{ github.ref_name }}-${{ github.sha }}
           APPLICATION_IMAGE_PATH: application1/Dockerfile
         run: |
-          docker build -f $APPLICATION_IMAGE_PATH -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG application1/
+          docker build -f $APPLICATION_IMAGE_PATH -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./application1/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
